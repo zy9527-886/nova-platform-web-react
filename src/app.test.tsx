@@ -38,6 +38,10 @@ vi.mock('@ant-design/pro-components', () => ({
 
 vi.mock('@ant-design/icons', () => ({
   LinkOutlined: () => null,
+  MenuOutlined: () => null,
+  SettingOutlined: () => null,
+  TeamOutlined: () => null,
+  UserOutlined: () => null,
 }));
 
 vi.mock('./requestErrorConfig', () => ({

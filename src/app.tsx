@@ -3,7 +3,7 @@ import type {
   MenuDataItem,
   Settings as LayoutSettings,
 } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-components';
+// import { SettingDrawer } from '@ant-design/pro-components';
 import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import dayjs from 'dayjs';
@@ -36,6 +36,16 @@ import { errorConfig } from './requestErrorConfig';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+
+const renderDynamicMenuIcon = (item: MenuDataItem, dom: React.ReactNode) => {
+  if (!item.novaShowChildIcon || !item.icon) return dom;
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+      {item.icon}
+      <span>{item.name}</span>
+    </span>
+  );
+};
 
 /**
  * @see https://umijs.org/docs/api/runtime-config#getinitialstate
@@ -95,21 +105,20 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({
-  initialState,
-  setInitialState,
-}) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     menuItemRender: (item, dom) => {
+      const menuItem = renderDynamicMenuIcon(item, dom);
       if (item.path) {
         return (
           <Link to={item.path} prefetch>
-            {dom}
+            {menuItem}
           </Link>
         );
       }
-      return dom;
+      return menuItem;
     },
+    subMenuItemRender: (item, dom) => renderDynamicMenuIcon(item, dom),
     menuDataRender: () => initialState?.menuData ?? [],
     actionsRender: () => {
       // `locale: false` opts out of the language switcher. ProLayout's own
@@ -182,7 +191,7 @@ export const layout: RunTimeLayoutConfig = ({
       return (
         <>
           {children}
-          <SettingDrawer
+          {/* <SettingDrawer
             disableUrlParams
             enableDarkTheme
             collapse={initialState?.settingDrawerOpen}
@@ -199,7 +208,7 @@ export const layout: RunTimeLayoutConfig = ({
                 settings,
               }));
             }}
-          />
+          /> */}
         </>
       );
     },
