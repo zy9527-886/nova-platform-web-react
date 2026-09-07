@@ -1,0 +1,4 @@
+export const AUTH_API_PREFIX = '/auth/system';
+
+export const SM2_PUBLIC_KEY =
+  '046d96396327a558afddde5ab9e6562025923bd6491958a14f451bb5d8a986b5c10ed36ee2891ee969cef686aefe8b925975bf2cfcd6c398618a8b02ca454daf56';
